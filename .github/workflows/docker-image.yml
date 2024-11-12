@@ -19,11 +19,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --build-arg MOSQUITTO_USER=${{ secrets.MOSQUITTO_USER }} --build-arg MOSQUITTO_PASSWORD=${{ secrets.MOSQUITTO_PASSWORD }} -f mqtt.Dockerfile -t ghcr.io/${{ github.repository }}:latest .
+          docker build --build-arg MOSQUITTO_USER=${{ secrets.MOSQUITTO_USER }} --build-arg MOSQUITTO_PASSWORD=${{ secrets.MOSQUITTO_PASSWORD }} -f mqtt.Dockerfile -t ghcr.io/condocam/mqtt:latest .
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/condocam/mqtt:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,7 +38,7 @@ jobs:
 
       - name: SSH to server and run Docker Compose
         env:
-          DOCKER_IMAGE: "ghcr.io/${{ github.repository }}:latest"
+          DOCKER_IMAGE: "ghcr.io/condocam/mqtt:latest"
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
             cd ~/streamserver
