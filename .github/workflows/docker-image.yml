@@ -39,9 +39,8 @@ jobs:
       - name: SSH to server and run Docker Compose
         env:
           DOCKER_IMAGE: "ghcr.io/${{ github.repository }}:latest"
-          SERVICE_NAME: "${{ github.repository.split('/')[-1] }}"
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
             cd ~/streamserver
-            docker compose up -d --build $SERVICE_NAME
+            docker compose up -d --build mqtt
           EOF
