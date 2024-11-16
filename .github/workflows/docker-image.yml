@@ -44,7 +44,7 @@ jobs:
           SSH_PASS: "${{ secrets.SSH_KEY_PASSWORD }}"
         run: |
           eval "$(ssh-agent -s)"
-          echo "$SSH_PASS" | ssh-add ~/.ssh/id_rsa
+          ssh-add ~/.ssh/id_rsa
 
       - name: SSH to server and run Docker Compose
         run: |
