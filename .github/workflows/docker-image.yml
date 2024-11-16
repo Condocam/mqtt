@@ -36,16 +36,9 @@ jobs:
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: Add SSH Key with Password
-        env:
-          SSH_PASS: "${{ secrets.SSH_KEY_PASSWORD }}"
-        run: |
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa.pub
+          chmod 600 ~/.ssh/id_rsa.pub
 
       - name: SSH to server and run Docker Compose
         run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} uname -a
+          ssh -i ~/.ssh/id_rsa.pub ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} uname -a
